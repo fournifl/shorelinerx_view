@@ -2,3 +2,5 @@ site: 'narrabeen'
 wl_dir: '/home/florent/Projects/Shoreliner_CNES/validation/runs/landsat/narrabeen/waterlines/' # directory of shorelinerx waterlines
 f_aoi: '/home/florent/Projects/Shoreliner_CNES/validation/reference_shorelines/aoi/aoi_ref_sl_narrabeen.gpkg' # area of interest in which to clip raster data
 odir: '/home/florent/Projects/Shoreliner_CNES/view' # output directory for viewing results
+assets:
+  rasters: ['rgb', 'mask_clouds']

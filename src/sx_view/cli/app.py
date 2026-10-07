@@ -10,12 +10,15 @@ from sx_view.cli import v
 
 app = typer.Typer(no_args_is_help=True)
 
+class Assets(BaseModel):
+    rasters: list
+
 class AppConfig(BaseModel):
     site: str
     wl_dir: Path
     f_aoi: Path
+    assets: Assets
     odir: Path
-
 
 def load_config(path: str) -> AppConfig:
     with open(path, "r", encoding="utf-8") as f:
