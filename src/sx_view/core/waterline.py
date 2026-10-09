@@ -1,4 +1,3 @@
-import pandas as pd
 import pystac
 import geopandas as gpd
 from pathlib import Path

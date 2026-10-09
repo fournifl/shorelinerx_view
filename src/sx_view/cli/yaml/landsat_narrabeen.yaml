@@ -1,6 +1,6 @@
 wl_dir: '/home/florent/Projects/Shoreliner_CNES/validation/runs/landsat/narrabeen/waterlines/' # directory of shorelinerx waterlines
 f_aoi: '/home/florent/Projects/Shoreliner_CNES/view/aoi/aoi_narrabeen.gpkg' # area of interest in which to clip raster data
 rasters:
-  ids: ['rgb'] # ['rgb']
+  ids: ['rgb', 'index', 'mask_clouds'] # ['rgb', 'index', 'mask_clouds']
 odir: '/home/florent/Projects/Shoreliner_CNES/view' # output directory for viewing results
 f_out_prefix: 'narrabeen_landsat'
