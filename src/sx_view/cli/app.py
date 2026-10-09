@@ -10,14 +10,14 @@ from sx_view.cli import v
 
 app = typer.Typer(no_args_is_help=True)
 
-class Assets(BaseModel):
-    rasters: list
+class Rasters(BaseModel):
+    ids: list
 
 class AppConfig(BaseModel):
-    site: str
+    f_out_prefix: str
     wl_dir: Path
     f_aoi: Path
-    assets: Assets
+    rasters: Rasters
     odir: Path
 
 def load_config(path: str) -> AppConfig:
@@ -44,11 +44,13 @@ def main(
         if not conf.odir.exists():
             conf.odir.mkdir(parents=True, exist_ok=True)
 
-        # Run viewer
+        # some check inputs
         if not conf.wl_dir.exists():
             raise typer.Exit("Waterline directory  does not exist")
         if not conf.f_aoi.exists():
             raise typer.Exit("File area of interest does not exist")
+
+        # Run viewer
         v.viewer(conf)
 
 

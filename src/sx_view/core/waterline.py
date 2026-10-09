@@ -1,3 +1,4 @@
+import pandas as pd
 import pystac
 import geopandas as gpd
 from pathlib import Path
@@ -15,21 +16,30 @@ def read_wl(item):
         assert f_wl.exists()
 
         # read waterline
-        wl_ = gpd.read_parquet(f_wl, columns=['geometry'])
-        wl = MultiLineString(list(wl_.geometry))
+        wl = gpd.read_parquet(f_wl, columns=['geometry'])
 
-        return wl, wl_.crs
+        # Reproject to Web Mercator (required for tile basemaps)
+        wl = wl.to_crs(3857)
+
+        # convert series of Linestring to a multilestring
+        mls = MultiLineString(list(wl.geometry))
+
+        # mission
+        mission = item.properties['platform']
+
+        return mls, wl.crs, mission
 
     except KeyError:
         print('empty waterline')
-        return None, None
+        return None, None, None
 
 
 
-def read(items: list[pystac.item.Item]):
+def read(items: list[pystac.item.Item], r_ids: list):
 
     date = []
     wl = []
+    mission = []
 
     # loop through items
     for item in items:
@@ -38,10 +48,11 @@ def read(items: list[pystac.item.Item]):
         date.append(item.datetime)
 
         # waterline
-        wl_, crs = read_wl(item)
-        wl.append(wl_)
+        mls, crs, m = read_wl(item)
+        wl.append(mls)
+        mission.append(m)
 
+    # create a geodataframe of waterline
+    gdf_wl = gpd.GeoDataFrame({"date": date, "mission": mission, "geometry": wl}, crs=crs)
 
-    df_wl = gpd.GeoDataFrame({"date": date, "geometry": wl}, crs=crs)
-
-    return df_wl
+    return gdf_wl
