@@ -6,6 +6,7 @@ from rasterio.mask import mask
 import rasterio
 from rasterio.warp import calculate_default_transform, reproject, Resampling
 from matplotlib import colormaps
+import geopandas
 
 
 def apply_mask(ls_r, roi, nodata, odir_masked):
@@ -107,3 +108,14 @@ def raster_to_rgba_mercator(src, mode="rgb", cmap="viridis", vlim=None,
     right, bottom = left + w * transform.a, top + h * transform.e
     return img, left, bottom, right - left, top - bottom
 
+
+def clip_gdf(gdf:geopandas.geodataframe, f_aoi: Path):
+
+    # aoi
+    aoi = gpd.read_file(f_aoi)
+    aoi = aoi.to_crs(gdf.crs)
+
+    # clip gdf to aoi
+    gdf_wl = gpd.clip(gdf, aoi)
+
+    return gdf_wl

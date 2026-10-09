@@ -135,7 +135,7 @@ def plot(gdf: geopandas.GeoDataFrame, odir: Path, f_out_prefix: str,
     layer_buttons.js_on_change("active", callback)
 
     out = odir.joinpath(f"{f_out_prefix}.html")
-    output_file(out)
+    output_file(out, title='sx view')
     print(f"\n --> {out} \n")
     save(column(layer_buttons, slider, label, p))
 

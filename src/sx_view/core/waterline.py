@@ -34,7 +34,7 @@ def read_wl(item):
 
 
 
-def read(items: list[pystac.item.Item], r_ids: list):
+def read(items: list[pystac.item.Item], f_aoi: Path):
 
     date = []
     wl = []
